@@ -19,6 +19,7 @@ class CreateEtudiantsTable extends Migration
             $table->string('email')->unique();
             $table->integer('telephone')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

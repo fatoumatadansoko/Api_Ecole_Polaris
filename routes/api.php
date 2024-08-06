@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UeController;
 use App\Http\Controllers\MatiereController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\EvaluationController;
 
 // Routes d'authentification
 Route::post('login', [AuthController::class, 'login']);
@@ -33,3 +35,24 @@ Route::middleware('auth:api')->prefix('matieres')->group(function () {
     Route::put('/{id}', [MatiereController::class, 'update']);
     Route::delete('/{id}', [MatiereController::class, 'destroy']);
 });
+
+
+// Route pour les etudiant necessitant une authentifications
+Route::middleware('auth:api')->prefix('etudiants')->group(function () {
+    Route::get('/', [App\Http\Controllers\EtudiantController::class, 'index']);
+    Route::post('/', [App\Http\Controllers\EtudiantController::class, 'store']);
+    Route::get('/{id}', [App\Http\Controllers\EtudiantController::class, 'show']);
+    Route::put('/{id}', [App\Http\Controllers\EtudiantController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\EtudiantController::class, 'destroy']);
+    Route::post('/{id}/restore', [EtudiantController::class, 'restore']);
+
+});
+
+Route::middleware('auth:api')->prefix('evaluations')->group(function () {
+    Route::get('/', [EvaluationController::class, 'index']);         // Liste des évaluations
+    Route::post('/', [EvaluationController::class, 'store']);        // Ajouter une évaluation
+    Route::get('/{id}', [EvaluationController::class, 'show']);      // Afficher une évaluation spécifique
+    Route::put('/{id}', [EvaluationController::class, 'update']);    // Mettre à jour une évaluation
+    Route::delete('/{id}', [EvaluationController::class, 'destroy']); // Supprimer une évaluation
+});
+
