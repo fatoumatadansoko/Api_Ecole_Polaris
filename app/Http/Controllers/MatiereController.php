@@ -2,65 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMatiereRequest;
-use App\Http\Requests\UpdateMatiereRequest;
 use App\Models\Matiere;
+use Illuminate\Http\Request;
 
 class MatiereController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Liste des matières
     public function index()
     {
-        //
+        $matieres = Matiere::all();
+        return response()->json($matieres);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    // Ajouter une nouvelle matière
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'libelle' => 'required|string|max:255',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date',
+            'ue_id' => 'required|exists:ues,id'
+        ]);
+
+        $matiere = Matiere::create($request->all());
+        return response()->json($matiere, 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMatiereRequest $request)
+    // Afficher une matière spécifique
+    public function show($id)
     {
-        //
+        $matiere = Matiere::find($id);
+
+        if (!$matiere) {
+            return response()->json(['message' => 'Matière non trouvée'], 404);
+        }
+
+        return response()->json($matiere);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Matiere $matiere)
+    // Mettre à jour une matière
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'libelle' => 'sometimes|required|string|max:255',
+            'date_debut' => 'sometimes|required|date',
+            'date_fin' => 'sometimes|required|date',
+            'ue_id' => 'sometimes|required|exists:ues,id'
+        ]);
+
+        $matiere = Matiere::find($id);
+
+        if (!$matiere) {
+            return response()->json(['message' => 'Matière non trouvée'], 404);
+        }
+
+        $matiere->update($request->all());
+        return response()->json($matiere);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Matiere $matiere)
+    // Supprimer une matière
+    public function destroy($id)
     {
-        //
-    }
+        $matiere = Matiere::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMatiereRequest $request, Matiere $matiere)
-    {
-        //
-    }
+        if (!$matiere) {
+            return response()->json(['message' => 'Matière non trouvée'], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Matiere $matiere)
-    {
-        //
+        $matiere->delete();
+        return response()->json(['message' => 'Matière supprimée avec succès']);
     }
 }
