@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             \Database\Seeders\UserSeeder::class,
+            UeSeeder::class,
+            MatiereSeeder::class,
+        
         ]);
     }
 }
