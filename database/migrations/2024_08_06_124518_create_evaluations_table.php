@@ -14,7 +14,7 @@ class CreateEvaluationsTable extends Migration
             $table->integer('valeur');
             $table->foreignId('etudiant_id')->constrained('etudiants')->onDelete('cascade');
             $table->foreignId('matiere_id')->constrained('matieres')->onDelete('cascade');
-            $table->foreignId('ue_id')->constrained('ue')->onDelete('cascade');
+            $table->foreignId('ue_id')->constrained('ues')->onDelete('cascade');
             $table->decimal('note', 5, 2)->check('note >= 0 and note <= 20');
             $table->timestamps();
         });

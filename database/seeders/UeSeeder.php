@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Ue;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UeSeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class UeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        //crée 10 unité d'enseignements
+        Ue::factory()->count(10)->create();
     }
 }

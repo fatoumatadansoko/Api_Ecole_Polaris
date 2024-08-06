@@ -17,7 +17,10 @@ class UeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date_debut' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'date_fin' => $this->faker->dateTimeBetween('now', '+1 year'),
+            'coef' => $this->faker->randomFloat(2, 1, 10), // Génère un nombre décimal entre 1 et 10
+            'libelle' => $this->faker->word,
         ];
     }
 }

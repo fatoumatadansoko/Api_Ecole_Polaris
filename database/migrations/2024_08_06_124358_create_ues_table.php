@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ue', function (Blueprint $table) {
+        Schema::create('ues', function (Blueprint $table) {
             $table->id();
             $table->datetime('date_debut');
             $table->datetime('date_fin');
-            $table->string('coef');
+            $table->integer('coef');
             $table->string('libelle');
             $table->timestamps();
         });

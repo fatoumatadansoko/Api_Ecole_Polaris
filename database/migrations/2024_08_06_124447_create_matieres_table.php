@@ -13,7 +13,7 @@ class CreateMatieresTable extends Migration
             $table->string('libelle');
             $table->datetime('date_debut');
             $table->datetime('date_fin');
-            $table->foreignId('ue_id')->constrained('ue')->onDelete('cascade');
+            $table->foreignId('ue_id')->constrained('ues')->onDelete('cascade');
             $table->timestamps();
         });
     }
