@@ -1308,21 +1308,32 @@
                 ],
                 "parameters": [
                     {
-                        "in": "path",
-                        "name": "email",
-                        "type": "string"
-                    },
-                    {
-                        "in": "path",
-                        "name": "password",
-                        "type": "string"
-                    },
-                    {
                         "in": "header",
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "email": "fatishma121@gmail.com",
+                                "password": "password"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/logout": {
