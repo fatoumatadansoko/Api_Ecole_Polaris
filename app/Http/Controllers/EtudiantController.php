@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateEtudiantRequest;
 
 class EtudiantController extends Controller
 {
@@ -23,16 +24,16 @@ class EtudiantController extends Controller
     public function store(Request $request)
 {
     try {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'prenom' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'matricule' => 'required|string|max:255|unique:etudiants,matricule',
-            'photo' => 'required|string|max:255',
-            'date_naissance' => 'required|date',
-            'email' => 'required|email|unique:etudiants,email',
-            'telephone' => 'required|string|max:15',
-        ]);
+        // $request->validate([
+        //     'nom' => 'required|string|max:255',
+        //     'prenom' => 'required|string|max:255',
+        //     'adresse' => 'required|string|max:255',
+        //     'matricule' => 'required|string|max:255|unique:etudiants,matricule',
+        //     'photo' => 'required|string|max:255',
+        //     'date_naissance' => 'required|date',
+        //     'email' => 'required|email|unique:etudiants,email',
+        //     'telephone' => 'required|string|max:15',
+        // ]);
 
         $etudiant = Etudiant::create($request->all());
         return response()->json($etudiant, 201);
@@ -61,30 +62,27 @@ class EtudiantController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEtudiantRequest $request, Etudiant $etudiant)
     {
         // Mettre à jour un étudiant
         $request->validate([
             'nom' => 'sometimes|required|string|max:255',
             'prenom' => 'sometimes|required|string|max:255',
             'adresse' => 'sometimes|required|string|max:255',
-            'matricule' => 'sometimes|required|string|max:255|unique:etudiants,matricule,' . $id,
+            'matricule' => 'sometimes|required|string|max:255|unique:etudiants,matricule,' . $etudiant->id,
             'photo' => 'sometimes|required|string|max:255',
             'date_naissance' => 'sometimes|required|date',
-            'email' => 'sometimes|required|email|unique:etudiants,email,' . $id,
+            'email' => 'sometimes|required|email|unique:etudiants,email,' . $etudiant->id,
             'telephone' => 'sometimes|required|string|max:15',
         ]);
-
-        $etudiant = Etudiant::find($id);
-
-        if (!$etudiant) {
-            return response()->json(['message' => 'Etudiant non trouvé'], 404);
-        }
-
+    
+        // Mettre à jour l'étudiant avec les données validées
         $etudiant->update($request->all());
-        return response()->json($etudiant);
+    
+        // Retourner une réponse JSON
+        return response()->json(['message' => 'Étudiant modifié', 'etudiant' => $etudiant]);
     }
-
+    
     /**
      * Remove the specified resource from storage.
      */
